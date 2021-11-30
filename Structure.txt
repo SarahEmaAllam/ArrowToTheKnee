@@ -1,0 +1,71 @@
+PROGRAM STRUCTURE
+- main: creates instance of QApplication, adds MainWindow (View), shows QApplication
+- (Control/)View
+    - MainWindow: frame for the app, all elements of gui are contained here
+    - Calls FC from Model when warranted
+- Model
+    - Contains everything relating to the FC algorithm
+
+KNOWLEDGE BASE
+- if-then rules
+    - premises
+    - conclusion
+   (- diagnosis or not)
+        - could use dictionary, allows for multiple types in one data structure
+    example:
+    rule = {"premises" = ["male", "old", "white"],
+            "conclusion" = "bald",
+            "diagnosis" = True
+           }
+    rule = {"premises" = ["female", "white"]
+            "conclusion" = "tall",
+            "diagnosis" = True
+           }
+
+- questions
+    - question in text form
+    - premises
+   (- button info
+        - would have to pass to whatever function handles the buttons)
+        - once again, could use dictionary
+    example:
+    question = {"question": "Are you male or female?",
+                "premises": ["start"],
+                "buttons": [["Male", "male"], ["Female", "female"]]
+               }
+    question = {"question": "Are you old?",
+                "premises": ["male"],
+                "buttons": [["Yes", "old"], ["No", "young"]]}
+               }
+    question = {"question": "Are you white?",
+                "premises": ["male", "female"],
+                "buttons": [["Yes", "white"], ["No", "poc"]]}
+
+- conclusion/treatment pairs
+    - could be simple list since both entries are strings
+    example:
+    treatment = ["bald", "hair transplant"]
+
+
+FC ALGORITHM
+- start when "continue-element" is interacted with (defined in view)
+- list with premise/conclusion pairs
+- queue with facts we have obtained
+    - initially filled with the answer to the first question
+- list that keeps track of explored premises
+- on each iteration:
+    - for each premise in obtained facts:
+        - get node from knowledge base
+        - compare obtained fact to premises of kb node
+            - if in there: somehow signal that the premise is fulfilled (maybe with a premise counter?)
+            - if all premises fulfilled: add conclusion to obtained facts
+            - if conclusion = diagnosis: stop
+    - find next question to ask depending on known facts
+    - pass question to view
+- optional:
+    - bayesian
+    - trace
+
+
+GUI
+- Main window

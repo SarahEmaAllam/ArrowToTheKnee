@@ -1,0 +1,2 @@
+male, old, bald, 2, D
+female, tall, 1, S
