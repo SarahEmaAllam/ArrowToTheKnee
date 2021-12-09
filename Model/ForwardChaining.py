@@ -1,4 +1,9 @@
 from .Rule import Rule
+import Questions
+from .Questions import Question
+import heapq
+import copy
+import math
 
 
 # Method for reading lines from a .txt file and turning them into lists of strings
@@ -32,8 +37,8 @@ def satisfy_rules(patient, knowledge, fact):
         for premise in rule.premises:
             if fact == premise:
                 # premise satisfied: "remove" premise from premise count
-                rule.set_count(rule.count - 1)
-                if rule.count == 0:
+                # rule.set_count(rule.count - 1)
+                # if rule.count == 0:
                     # check if conclusion is a diagnosis or another symptom
                     if rule.diagnosis == "D":
                         patient.add_diagnosis(rule.conclusion)
@@ -49,11 +54,36 @@ def forward_chaining(patient):
 
     obtained = patient.symptoms
 
-    # loop to match each obtained and not yet explored fact to rules in the knowledge base
-    for fact in obtained:
+    #we will have a set of questions defined separately from the KB
+    #we have to ask at least one question at the beginning so we can start the inference
+    # two questions will have priority 1 max : gender and age
+    questions = Questions.initialize_questions()
+    question = questions.pop()
+
+    #now send the question to the front end
+
+    #get the premise from the answer
+    facts = []
+    heapq.heappush(facts, question.selected_answer)
+
+    #the inference loop
+    while len(questions)!= 0:
+
+        #first update weight in co-variance matrix
+
+        fact = heapq.heappop(facts) #pop by weight priority
+
         if fact not in patient.explored:
             patient.add_explored(fact)
-
             satisfy_rules(patient, knowledge_base, fact)
+
+
+
+    # loop to match each obtained and not yet explored fact to rules in the knowledge base
+    # for fact in obtained:
+    #     if fact not in patient.explored:
+    #         patient.add_explored(fact)
+    #
+    #         satisfy_rules(patient, knowledge_base, fact)
 
     print(patient.diagnoses, patient.symptoms)

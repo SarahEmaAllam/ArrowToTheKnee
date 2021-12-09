@@ -1,6 +1,6 @@
 from View.Button import Button
 from View.Question import Question
-
+import heapq
 
 # this class should handle all the existing questions :
 # it retrieves the next question base don the KB priority
@@ -19,3 +19,9 @@ class QuestionsHandler:
         self.add_question(question)
         question.create_button(button1, symp1)
         question.create_button(button2, symp2)
+
+def initialize_questions():
+    questions = []
+    question1 = Question("What is your gender?", 1, None)
+    heapq.heappush(questions, question1)
+    return questions

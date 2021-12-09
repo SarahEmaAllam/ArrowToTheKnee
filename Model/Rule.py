@@ -17,3 +17,5 @@ class Rule(object):
 
     def set_diagnosis(self, diagnosis):
         self.diagnosis = diagnosis
+
+        #todo DECOUPLE PREMISE FROM RULE. MULTIPLE RULES CAN HAVE THE SAME PREMISE. EVERY PREMISE HAS A WEIGHT
