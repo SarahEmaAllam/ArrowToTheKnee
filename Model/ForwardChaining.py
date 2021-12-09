@@ -1,6 +1,6 @@
-from .Rule import Rule
-import Questions
-from .Questions import Question
+from KnowledgeBase import KnowledgeBase
+from Rule import Rule
+from View.Question import Question
 import heapq
 import copy
 import math
@@ -31,33 +31,77 @@ def convert_to_rules(knowledge):
     return array
 
 
-# Method for comparing known facts to premises of rules
-def satisfy_rules(patient, knowledge, fact):
-    for rule in knowledge:
-        for premise in rule.premises:
-            if fact == premise:
+def retrieve_qustion_by_weight(missing_weights_in_rules):
+    pass
+
+
+def retrieve_question_by_premise(missing_premises_in_rules):
+    pass
+
+
+def solve_inference(patient, knowledge, fact, facts):
+    missing_premises_in_rules = []
+    for index, rule in enumerate(knowledge["rules"]):
+        missing_premises = []
+        for symptom in rule[0]:
+            if symptom[0] is None: # symptom exists as premise
+                missing_premises.append(symptom[0])
+        missing_premises_in_rules.append((index, missing_premises)) # save nr of missing premises with the index of the rule
+        
+        missing_weights_in_rules = []
+        if len(missing_premises) == 0: # no missing premises so we can do inference
+            # check if the weights of the premises are higher than thresholds
+            wrong_weights = []
+            for weight in rule[0]:
+                if weight[1] != True:  # not above threshold weight
+                    # ask more questions
+                    wrong_weights.append(weight[1])
+            missing_weights_in_rules.append((index, wrong_weights))
+            #if all weights are correct for a diagnosis
+            if wrong_weights == 0:
+                # infer a diagnosis and put it in the queue
+                heapq.heappush(facts, rule[1])
+            else:
+                # there are wrong weights, next question should clarify the weight
+                retrieve_qustion_by_weight(missing_weights_in_rules)
+        else:
+            # missing premises, next question should be about the missing premises
+            retrieve_question_by_premise(missing_premises_in_rules)
+                
+                    
+
+
+
+
+        # Method for comparing known facts to premises of rules
+def satisfy_rules(patient, knowledge, fact, facts):
+    for premise in knowledge["symptoms"]:
+        if fact == premise[0]:
+            solve_inference(patient, knowledge, fact, facts)
+
                 # premise satisfied: "remove" premise from premise count
                 # rule.set_count(rule.count - 1)
                 # if rule.count == 0:
                     # check if conclusion is a diagnosis or another symptom
-                    if rule.diagnosis == "D":
-                        patient.add_diagnosis(rule.conclusion)
-                    else:
-                        patient.add_symptom(rule.conclusion)
-                break
+                #     if rule.diagnosis == "D":
+                #         patient.add_diagnosis(rule.conclusion)
+                #     else:
+                #         patient.add_symptom(rule.conclusion)
+                # break
 
 
 def forward_chaining(patient):
     # read rules from file and convert to list of Rule objects
-    knowledge_base = read_knowledge()
-    knowledge_base = convert_to_rules(knowledge_base)
+    # knowledge_base = read_knowledge()
+    knowledge_base = KnowledgeBase()
+    # knowledge_base = convert_to_rules(knowledge_base)
 
     obtained = patient.symptoms
 
     #we will have a set of questions defined separately from the KB
     #we have to ask at least one question at the beginning so we can start the inference
     # two questions will have priority 1 max : gender and age
-    questions = Questions.initialize_questions()
+    questions = Question.initialize_questions()
     question = questions.pop()
 
     #now send the question to the front end
@@ -67,7 +111,7 @@ def forward_chaining(patient):
     heapq.heappush(facts, question.selected_answer)
 
     #the inference loop
-    while len(questions)!= 0:
+    while len(facts)!= 0:
 
         #first update weight in co-variance matrix
 
@@ -75,7 +119,7 @@ def forward_chaining(patient):
 
         if fact not in patient.explored:
             patient.add_explored(fact)
-            satisfy_rules(patient, knowledge_base, fact)
+            satisfy_rules(patient, knowledge_base.KB, fact, facts)
 
 
 
