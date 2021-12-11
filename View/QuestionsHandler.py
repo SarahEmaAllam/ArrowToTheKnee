@@ -52,7 +52,7 @@ class QuestionsHandler:
     def pop(self):
         priority = 0
         for i in range(len(self.questions)):
-            if self.questions[i].weight > self.questions[priority].weight:
+            if self.questions[i] > self.questions[priority]:
                 priority = i
         item = self.questions[priority]
         del self.questions[priority]
