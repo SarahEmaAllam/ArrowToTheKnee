@@ -30,7 +30,7 @@ class QuestionsHandler:
         # loop to remove newlines and to create individual entries for each item
         for line in text:
             line = str.strip(line)
-            array.append(line.split(","))
+            array.append(line.split("_"))
 
         questions = []
         for line in array:
@@ -43,6 +43,9 @@ class QuestionsHandler:
             question.set_question(line.pop())
             heapq.heappush(questions, question)
 
+        for question in questions:
+            print(question.question)
+        print("a")
         return questions
 
     # Priority queue pop algorithm
