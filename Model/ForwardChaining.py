@@ -1,6 +1,7 @@
 from KnowledgeBase import KnowledgeBase
 from Rule import Rule
-from View.Question import Question
+from View.QuestionsHandler import QuestionsHandler
+from View.MainWindow import *
 import heapq
 import copy
 import math
@@ -90,7 +91,7 @@ def satisfy_rules(patient, knowledge, fact, facts):
                 # break
 
 
-def forward_chaining(patient):
+def forward_chaining(window, patient):
     # read rules from file and convert to list of Rule objects
     # knowledge_base = read_knowledge()
     knowledge_base = KnowledgeBase()
@@ -101,8 +102,9 @@ def forward_chaining(patient):
     #we will have a set of questions defined separately from the KB
     #we have to ask at least one question at the beginning so we can start the inference
     # two questions will have priority 1 max : gender and age
-    questions = Question.initialize_questions()
-    question = questions.pop()
+    question = window.questions.pop()
+    window.update_window(question)
+
 
     #now send the question to the front end
 

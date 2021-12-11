@@ -1,3 +1,7 @@
+from Model.Rule import Rule
+from Model.Premise import Premise
+
+
 class KnowledgeBase:
 
     def __init__(self):
@@ -28,15 +32,15 @@ class KnowledgeBase:
         self.KB["rules"] = [
             ([
                 # all premises have to be present and to return 1 (true)
-                (gender == 1, weight_gender >= 0.70), # parameter is a variable converted to 0 or 1 boolean and then given a weight
+                (gender == 1, weight_gender >= 0.70),  # parameter is a variable converted to 0 or 1 boolean and then given a weight
                 (age == 2, weight_age >= 0.30),
-                 (pain == 3, weight_pain >= 0.50),
-                 ( (weight_pain+weight_age+weight_gender)/3 >= threshold) # calculate the average probability of all symptoms
-            ]
-            , middle_diagnosis[0]# diagnosis is the second parameter in the symptoms-diagnosis set
+                (pain == 3, weight_pain >= 0.50),
+                ((weight_pain+weight_age+weight_gender)/3 >= threshold)  # calculate the average probability of all symptoms
+            ],
+             middle_diagnosis[0]  # diagnosis is the second parameter in the symptoms-diagnosis set
             ),
             # rule 2 and so on ....
-            (middle_diagnosis == 1, diagnoses[0] )
+            (middle_diagnosis == 1, diagnoses[0])
         ]
 
         # self.KB["rules"] = [(["croak", "sings"], "frog"),  # ([premise1, premise2], conclusion)  -> all conjunctions

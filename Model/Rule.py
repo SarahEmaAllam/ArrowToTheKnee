@@ -1,13 +1,15 @@
+from Premise import Premise
+
 
 class Rule(object):
-    def __init__(self):
-        self.premises = []
+    def __init__(self, premises=[]):
+        self.premises = premises
         self.conclusion = ""
         self.count = 0
         self.diagnosis = ""
 
-    def set_premises(self, premises):
-        self.premises = premises
+    def add_premise(self, premise):
+        self.premises.append(premise)
 
     def set_conclusion(self, conclusion):
         self.conclusion = conclusion

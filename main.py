@@ -5,12 +5,16 @@ from Model.ForwardChaining import *
 from Model.Patient import Patient
 
 
-# app = QApplication(sys.argv)
+app = QApplication(sys.argv)
 
-# window = MainWindow("title")
-# window.show()
+questions = QuestionsHandler()
+questions.initialize_questions()
 
-# app.exec_()
+window = MainWindow("Knee Issues", questions)
+window.show()
 
-patient = Patient(["male", "old"])
-forward_chaining(patient)
+patient = Patient()
+
+question = questions.pop()
+window.update_window(question)
+app.exec_()

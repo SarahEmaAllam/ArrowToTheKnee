@@ -16,7 +16,6 @@ class Button(QPushButton):
         # self.setText("I was clicked")
         self.setEnabled(False)
 
-
     # Method that adds the button to the window (needs adjustment to fit layout)
     def add_to_window(self, window):
         window.setCentralWidget(self)

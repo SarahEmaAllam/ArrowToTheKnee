@@ -1,2 +1,1 @@
-male, old, bald, 2, D
-female, tall, 1, S
+1,0.70,2,0.30,3,0.50

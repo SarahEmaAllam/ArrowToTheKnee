@@ -12,17 +12,23 @@ from View.Button import Button
 
 
 class Question(QWidget):
-    def __init__(self, question, weight, parent):
+    def __init__(self, weight=0, question="", parent=None):
         super().__init__()
         self.weight = weight  # should be initialized with a base one and updated
         self.parent = parent  # the previous question, keep track of the branching
         self.question = question
         self.buttons = []
         self.answers = []
-        self.selected_answer = None
+        self.selected_answer = []
 
     def __lt__(self, other):  # defines weight priority
         return self.weight < other.weight
+
+    def set_weight(self, weight):
+        self.weight = weight
+
+    def set_question(self, question):
+        self.question = question
 
     def add_button(self, button):
         self.buttons.append(button)
@@ -30,13 +36,5 @@ class Question(QWidget):
     # button should represent a symptom in the KB
     def create_button(self, text, symptom):
         vbox = QVBoxLayout()
-        btn = Button(text, symptom)  # the text that will appear on the button
-        button = (btn, symptom)
+        button = Button(text, symptom)  # the text that will appear on the button
         self.add_button(button)
-
-
-
-
-
-
-
