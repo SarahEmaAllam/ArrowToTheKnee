@@ -21,3 +21,4 @@ class Rule(object):
         self.diagnosis = diagnosis
 
         #todo DECOUPLE PREMISE FROM RULE. MULTIPLE RULES CAN HAVE THE SAME PREMISE. EVERY PREMISE HAS A WEIGHT
+        # attempted this with class Premise but idk if it's what you envisioned

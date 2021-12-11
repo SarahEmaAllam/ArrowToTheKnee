@@ -99,18 +99,16 @@ def forward_chaining(window, patient):
 
     obtained = patient.symptoms
 
-    #we will have a set of questions defined separately from the KB
-    #we have to ask at least one question at the beginning so we can start the inference
-    # two questions will have priority 1 max : gender and age
-    question = window.questions.pop()
-    window.update_window(question)
-
+    # TODO: move to the end of the algorithm (first question is generated before first fc call)
+    # question = window.questions.pop()
+    # window.update_window(question)
 
     #now send the question to the front end
 
     #get the premise from the answer
+    # NOTE: window.sender() = the clicked button that lead to fc being called, symptom = symptom tied to button
     facts = []
-    heapq.heappush(facts, question.selected_answer)
+    heapq.heappush(facts, window.sender().symptom)
 
     #the inference loop
     while len(facts)!= 0:

@@ -9,31 +9,27 @@ from Model.ForwardChaining import *
 
 
 class MainWindow(QMainWindow):
+    # Passed parameters: window title, QuestionHandler containing all question objects
     def __init__(self, title, questions):
         super().__init__()
 
         self.setWindowTitle(title)
-
         self.setMinimumSize(QSize(400, 300))
-
         self.questions = questions
 
-        self.symptom = []
-
-        self.current_question = None
-
-    # Method to define window behavior when button is clicked (could be used to change buttons/question)
-    # MISSING: patient parameter for f_c, not sure how the patient class is used in current algorithm
+    # Method to call forward chaining, which at the end calls update_window
+    # TODO: patient parameter for f_c, not sure how the patient class is used in current algorithm
+    # TODO: adapt such that it doesn't call f_c for questions where you can select multiple
     def was_clicked(self):
-        print(self.sender().symptom)
         forward_chaining(self, None)
 
+    # Method to update the window with the next question retrieved from the priority queue
     def update_window(self, question):
-        self.current_question = question
         layout = QVBoxLayout()
-        layout.addWidget(QLabel(self.current_question.question))
-        for button in self.current_question.buttons:
+        layout.addWidget(QLabel(question.question))
+        for button in question.buttons:
             layout.addWidget(button)
+            # Connect every added button to method was_clicked so that fc is called for each of them
             button.clicked.connect(self.was_clicked)
         container = QWidget()
         container.setLayout(layout)

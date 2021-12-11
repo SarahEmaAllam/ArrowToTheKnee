@@ -15,17 +15,19 @@ class QuestionsHandler:
     def add_question(self, question):
         self.questions.append(question)
 
+    # Currently not used
     def question1(self, text, button1, symp1, button2, symp2):
         question = Question(text)
         self.add_question(question)
         question.create_button(button1, symp1)
         question.create_button(button2, symp2)
 
+    # Method for reading questions from a .txt file and processing them into Question objects
     def initialize_questions(self):
         with open('questions.txt') as f:
             text = f.readlines()
         array = []
-        # loop to remove newlines and to create individual entries for each word
+        # loop to remove newlines and to create individual entries for each item
         for line in text:
             line = str.strip(line)
             array.append(line.split(","))
@@ -43,6 +45,7 @@ class QuestionsHandler:
 
         return questions
 
+    # Priority queue pop algorithm
     def pop(self):
         priority = 0
         for i in range(len(self.questions)):
@@ -53,5 +56,6 @@ class QuestionsHandler:
         self.add_explored(item)
         return item
 
+    # Method for adding a question to the questions we've explored
     def add_explored(self, question):
         self.explored.append(question)

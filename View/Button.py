@@ -13,7 +13,6 @@ class Button(QPushButton):
 
     # Method defining behavior when a button is clicked
     def was_clicked(self):
-        # self.setText("I was clicked")
         self.setEnabled(False)
 
     # Method that adds the button to the window (needs adjustment to fit layout)
