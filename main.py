@@ -7,14 +7,15 @@ from Model.Patient import Patient
 
 app = QApplication(sys.argv)
 
+kb = KnowledgeBase()
 # Create QuestionHandler that reads all questions from a .txt file
-questions = QuestionsHandler()
+questions = QuestionsHandler(kb)
+question = questions.questions.pop()
 
-window = MainWindow("Knee Issues", questions)
+window = MainWindow("Knee Issues", questions, question, kb)
 window.show()
 
 # First question is popped and sent to view which in turn calls FC when a button is clicked
-question = questions.pop()
 patient = Patient()
 window.update_window(question, patient)
 

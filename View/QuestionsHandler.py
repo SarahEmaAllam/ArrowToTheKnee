@@ -8,22 +8,24 @@ import heapq
 
 
 class QuestionsHandler:
-    def __init__(self):
-        self.questions = self.initialize_questions()
+    def __init__(self, kb):
+        self.questions = self.initialize_questions(kb)
+        print(self.questions)
         self.explored = []
 
     def add_question(self, question):
         self.questions.append(question)
 
     # Currently not used
-    def question1(self, text, button1, symp1, button2, symp2):
+    def question1(self, text, variable, button1, symp1, button2, symp2):
         question = Question(text)
+        question.variable = variable
         self.add_question(question)
         question.create_button(button1, symp1)
         question.create_button(button2, symp2)
 
     # Method for reading questions from a .txt file and processing them into Question objects
-    def initialize_questions(self):
+    def initialize_questions(self, kb):
         with open('questions.txt') as f:
             text = f.readlines()
         array = []
@@ -31,33 +33,26 @@ class QuestionsHandler:
         for line in text:
             line = str.strip(line)
             array.append(line.split("_"))
+        print(array)
 
         questions = []
         for line in array:
             question = Question()
-            question.set_weight(float(line.pop()))
-            count = len(line)
-            while count != 1:
+            question.question = line.pop(0)
+            print(question.question)
+            variable = line.pop(0)
+            print(variable)
+            question.variable = kb.symptoms[variable]
+            print(question.variable)
+            while len(line) != 0:
                 question.create_button(line.pop(), line.pop())
-                count -= 2
-            question.set_question(line.pop())
-            heapq.heappush(questions, question)
+
+            questions.append(question)
 
         for question in questions:
             print(question.question)
         print("a")
         return questions
-
-    # Priority queue pop algorithm
-    def pop(self):
-        priority = 0
-        for i in range(len(self.questions)):
-            if self.questions[i] > self.questions[priority]:
-                priority = i
-        item = self.questions[priority]
-        del self.questions[priority]
-        self.add_explored(item)
-        return item
 
     # Method for adding a question to the questions we've explored
     def add_explored(self, question):

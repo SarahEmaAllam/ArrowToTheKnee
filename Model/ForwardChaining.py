@@ -36,11 +36,12 @@ def retrieve_qustion_by_weight(missing_weights_in_rules):
     pass
 
 
-def retrieve_question_by_premise(missing_premises_in_rules):
-    pass
+def retrieve_question_by_premise(missing_premises_in_rules, window):
+    question = window.questions.pop()
+    window.update_window(question)
 
 
-def solve_inference(patient, knowledge, fact, facts):
+def solve_inference(patient, knowledge, fact, facts, window):
     missing_premises_in_rules = []
     for index, rule in enumerate(knowledge["rules"]):
         missing_premises = []
@@ -64,10 +65,10 @@ def solve_inference(patient, knowledge, fact, facts):
                 heapq.heappush(facts, rule[1])
             else:
                 # there are wrong weights, next question should clarify the weight
-                retrieve_qustion_by_weight(missing_weights_in_rules)
+                retrieve_qustion_by_weight(missing_weights_in_rules, window)
         else:
             # missing premises, next question should be about the missing premises
-            retrieve_question_by_premise(missing_premises_in_rules)
+            retrieve_question_by_premise(missing_premises_in_rules, window)
                 
                     
 
@@ -75,10 +76,10 @@ def solve_inference(patient, knowledge, fact, facts):
 
 
         # Method for comparing known facts to premises of rules
-def satisfy_rules(patient, knowledge, fact, facts):
-    for premise in knowledge["symptoms"]:
+def satisfy_rules(patient, knowledge, fact, facts, window):
+    for premise in knowledge.symptoms:
         if fact == premise[0]:
-            solve_inference(patient, knowledge, fact, facts)
+            solve_inference(patient, knowledge, fact, facts, window)
 
                 # premise satisfied: "remove" premise from premise count
                 # rule.set_count(rule.count - 1)
@@ -103,8 +104,6 @@ def forward_chaining(window, patient):
     # question = window.questions.pop()
     # window.update_window(question)
 
-    #now send the question to the front end
-
     #get the premise from the answer
     # NOTE: window.sender() = the clicked button that lead to fc being called, symptom = symptom tied to button
     facts = []
@@ -119,7 +118,7 @@ def forward_chaining(window, patient):
 
         if fact not in patient.explored:
             patient.add_explored(fact)
-            satisfy_rules(patient, knowledge_base.KB, fact, facts)
+            satisfy_rules(patient, knowledge_base, fact, facts, window)
 
 
 
@@ -130,4 +129,5 @@ def forward_chaining(window, patient):
     #
     #         satisfy_rules(patient, knowledge_base, fact)
 
-    print(patient.diagnoses, patient.symptoms)
+    print(knowledge_base.diagnoses, patient.symptoms)
+    window.update_window(window.questions.questions.pop(), patient)

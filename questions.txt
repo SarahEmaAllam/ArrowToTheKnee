@@ -1,8 +1,2 @@
-What is your gender?_male_Male_female_Female
-What is your age?_5_55+_4_30-55_3_18-30_2_12-18_1_Under 12
-Did your discomfort start suddenly or gradually?_gradual_Gradually_slow_Slowly
-Where on your knee is the pain located?_within_Within the Knee_outside_On the Outside_back_On the Backside_inside_On the Inside_front_On the Frontside
-Is there swelling of the knee?_not swollen_No_whole_Yes, on the Entire Knee_localized_Yes, in one spot
-Does the swelling come and go or is it permanent?_permanent_Permanent_come and go_Come and Go
-Which of the following actions hurt your knee?_both_Both Extending and Bending_bend_Bending the Knee_extend_Extending the Knee
-Select the kinds of movement that hurt your knee._still_Not Moving_repetitive_Repetitive Movements_turn_Turning Motions_explosive_Explosive Movements
+What is your gender?_gender_male_Male_female_Female
+What is your age?_age_5_55+_4_30-55_3_18-30_2_12-18_1_Under 12
