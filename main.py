@@ -4,6 +4,13 @@ from View.MainWindow import MainWindow
 from Model.ForwardChaining import *
 from Model.Patient import Patient
 
+var = False
+
+dict = [(var, 1)]
+print(dict)
+
+var = True
+print(dict)
 
 app = QApplication(sys.argv)
 

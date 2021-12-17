@@ -6,7 +6,7 @@ import heapq
 import copy
 import math
 
-
+flag = False
 # Method for reading lines from a .txt file and turning them into lists of strings
 def read_knowledge():
     with open('knowledge_base.txt') as f:
@@ -38,17 +38,20 @@ def retrieve_qustion_by_weight(missing_weights_in_rules):
 
 def retrieve_question_by_premise(missing_premises_in_rules, window):
     question = window.questions.pop()
-    window.update_window(question)
+    window.updateWindow(question)
 
 
 def solve_inference(patient, knowledge, fact, facts, window):
     missing_premises_in_rules = []
-    for index, rule in enumerate(knowledge["rules"]):
+    for index, rule in enumerate(knowledge.rules):
+        print("rule is with index", rule, index)
         missing_premises = []
         for symptom in rule[0]:
+            print("symptom in rule is ", symptom)
             if symptom[0] is None: # symptom exists as premise
+                print("missing symptom is ", symptom[0])
                 missing_premises.append(symptom[0])
-        missing_premises_in_rules.append((index, missing_premises)) # save nr of missing premises with the index of the rule
+        missing_premises_in_rules.append((index, missing_premises))  # save nr of missing premises with the index of the rule
         
         missing_weights_in_rules = []
         if len(missing_premises) == 0: # no missing premises so we can do inference
@@ -63,9 +66,12 @@ def solve_inference(patient, knowledge, fact, facts, window):
             if wrong_weights == 0:
                 # infer a diagnosis and put it in the queue
                 heapq.heappush(facts, rule[1])
-            else:
-                # there are wrong weights, next question should clarify the weight
-                retrieve_qustion_by_weight(missing_weights_in_rules, window)
+                flag = rule[1]
+                print("Your diagnosis is ", rule[1])
+                exit(0)
+            # else:
+            #     # there are wrong weights, next question should clarify the weight
+            #     retrieve_qustion_by_weight(missing_weights_in_rules, window)
         else:
             # missing premises, next question should be about the missing premises
             retrieve_question_by_premise(missing_premises_in_rules, window)
@@ -78,7 +84,9 @@ def solve_inference(patient, knowledge, fact, facts, window):
         # Method for comparing known facts to premises of rules
 def satisfy_rules(patient, knowledge, fact, facts, window):
     for premise in knowledge.symptoms:
-        if fact == premise[0]:
+        print("premise in KB is ", premise, knowledge.symptoms[premise])
+        if fact == knowledge.symptoms[premise]:
+            print("fact is equal to premise[0] symptom ", fact, knowledge.symptoms[premise])
             solve_inference(patient, knowledge, fact, facts, window)
 
                 # premise satisfied: "remove" premise from premise count
@@ -95,10 +103,8 @@ def satisfy_rules(patient, knowledge, fact, facts, window):
 def forward_chaining(window, patient):
     # read rules from file and convert to list of Rule objects
     # knowledge_base = read_knowledge()
-    knowledge_base = KnowledgeBase()
+    knowledge_base = window.kb
     # knowledge_base = convert_to_rules(knowledge_base)
-
-    obtained = patient.symptoms
 
     # TODO: move to the end of the algorithm (first question is generated before first fc call)
     # question = window.questions.pop()
@@ -109,12 +115,14 @@ def forward_chaining(window, patient):
     facts = []
     heapq.heappush(facts, window.sender().symptom)
 
+
     #the inference loop
-    while len(facts)!= 0:
+    while len(facts) < 0:
 
         #first update weight in co-variance matrix
 
         fact = heapq.heappop(facts) #pop by weight priority
+        print("fact popped is ", fact)
 
         if fact not in patient.explored:
             patient.add_explored(fact)
@@ -130,4 +138,9 @@ def forward_chaining(window, patient):
     #         satisfy_rules(patient, knowledge_base, fact)
 
     print(knowledge_base.diagnoses, patient.symptoms)
-    window.update_window(window.questions.questions.pop(), patient)
+    print("print questions", len(window.questions.questions), window.questions.questions)
+    if len(window.questions.questions) != 0:
+        window.update_window(window.questions.questions.pop(), patient)
+
+
+

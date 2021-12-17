@@ -26,6 +26,19 @@ class MainWindow(QMainWindow):
     # TODO: adapt such that it doesn't call f_c for questions where you can select multiple
     def was_clicked(self):
         self.kb.symptoms[self.current_question.variable] = self.sender().symptom
+
+        self.kb.rules = [
+            ([
+                 (self.kb.symptoms['gender'] == 'female', 1),
+                 (self.kb.symptoms['age'] == '5', 1)
+             ],
+             self.kb.diagnoses[0]
+            ),
+        ]
+
+        # self.current_question.variable = kb.symptoms[variable]
+        print("current ques", self.current_question.question)
+        print("HEYEYEYEYEY ", self.current_question.variable, self.sender().symptom)
         forward_chaining(self, self.patient)
 
     # Method to update the window with the next question retrieved from the priority queue

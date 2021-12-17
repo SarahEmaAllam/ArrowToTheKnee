@@ -42,7 +42,7 @@ class QuestionsHandler:
             print(question.question)
             variable = line.pop(0)
             print(variable)
-            question.variable = kb.symptoms[variable]
+            question.variable = variable
             print(question.variable)
             while len(line) != 0:
                 question.create_button(line.pop(), line.pop())

@@ -12,7 +12,7 @@ class KnowledgeBase:
         age = 'age' # 5 categories
         pain = None
         middle_diagnosis=[1,0]
-        self.diagnoses = 'WAFFLES'
+        self.diagnoses = ['waffle', 'jerry']
 
         # variables for weights
         weight_gender = 0
@@ -38,12 +38,12 @@ class KnowledgeBase:
             # (pain, weight_pain),
 
 
-        self.KB["rules"] = [
+        self.rules = [
             ([
-                self.symptoms['gender'] == 'female',
-                self.symptoms['age'] == '55+'
+                (self.symptoms['gender'] == 'female', 1),
+                (self.symptoms['age'] == '5', 1)
             ],
-                self.diagnoses
+                self.diagnoses[0]
             ),
             ]
 
