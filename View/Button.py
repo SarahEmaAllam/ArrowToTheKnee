@@ -8,13 +8,13 @@ class Button(QPushButton):
         super().__init__(text)
         self.setCheckable(True)
         self.symptom = symptom
+        self.slider_value = "1"
         # if clicked, add symptom to KB
-        self.clicked.connect(self.was_clicked)
-
-    # Method defining behavior when a button is clicked
-    def was_clicked(self):
-        self.setEnabled(False)
 
     # Method that adds the button to the window (needs adjustment to fit layout)
     def add_to_window(self, window):
         window.setCentralWidget(self)
+
+    # Method defining behavior when a button is clicked
+    def change_value(self):
+        self.slider_value = (self.sender().value())

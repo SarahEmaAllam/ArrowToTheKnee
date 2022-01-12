@@ -1,6 +1,7 @@
 from PySide2.QtCore import QSize, Qt
 from PySide2.QtWidgets import QMainWindow, QLabel, QVBoxLayout, QWidget, QStackedWidget
 from PySide2.QtWidgets import QApplication, QMainWindow, QPushButton
+from PySide2.QtGui import QFont
 
 
 class IntroductionWindow(QMainWindow):
@@ -9,18 +10,27 @@ class IntroductionWindow(QMainWindow):
         self.IDx = 'introduction_question'
         self.start = False
         self.answers = 'intro'
-        self.setMinimumSize(QSize(400, 300))
+        self.setMinimumSize(QSize(400, 400))
         self.receiver = main_window
 
         self.layout = QVBoxLayout()
 
-        self.layout.addWidget(QLabel('Did you recently take an arrow to the knee?'))
+        title = QLabel('Knee Issue Diagnosis')
+        font = QFont("Cambria", 30, QFont.Bold)
+        title.setFont(font)
+        title.setAlignment(Qt.AlignHCenter)
+        self.layout.addWidget(title)
 
-        button = QPushButton('Yes please help')
-        button.setCheckable(True)
+        intro = QLabel('An expert knowledge system by team ArrowToTheKnee:\nSarah Allam\nPhil Bischoff\nMikko Brandon')
+        font = QFont("Arial", 15, QFont.DemiBold)
+        intro.setFont(font)
+        intro.setAlignment(Qt.AlignCenter)
+        self.layout.addWidget(intro)
+
+        button = QPushButton('Start')
         button.clicked.connect(self.the_button_was_clicked)
         # button.clicked.connect(WindowHandler.showNextScreen)
-        button = self.layout.addWidget(button)
+        self.layout.addWidget(button)
 
         container = QWidget()
         container.setLayout(self.layout)
