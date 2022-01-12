@@ -1,10 +1,9 @@
 import sys
 from PySide2.QtCore import QSize, Qt
-from PySide2.QtWidgets import QMainWindow, QLabel, QVBoxLayout, QWidget
+from PySide2.QtWidgets import QMainWindow, QLabel, QVBoxLayout, QWidget, QStackedWidget
 from PySide2.QtWidgets import QApplication, QMainWindow, QPushButton
 
 #A Dictionary that holds all Questions:Answer pairs.
-
 questions = {'age_question':['0-12','12-18','18-39','39-55','55+'],
              'gender_question':['Male','Female'],
              'pain_start_question':['Gradually','Suddenly'],
@@ -15,7 +14,6 @@ questions = {'age_question':['0-12','12-18','18-39','39-55','55+'],
              'swelling_location_question': ['In one spot', 'Whole Knee'],
              'extension_question': ['When extending the knee', 'When bending the knee', 'Both']         
               }
-
 
 #I know this is a horrible way to do it
 #A function to match a question string to question class, also might not need it depending on implementation
@@ -47,31 +45,51 @@ def matchQuestionToWindow(Question):
     else:
         print("Question not there")
 
-
-#Just trying out something here
+#Class that handles the windows
 class WindowHandler:
-    def __init__(self, window):
-        self.window = window
+    def __init__(self):
 
-    def changeWindow(self, new_window):
-        self.window = new_window
+        self.stack = []
 
-    def makeWindow(self):
+        #I'm sure this is how professionals debug as well!
+        print("SHIT")
+
+    def addStack(self, stack):
+        self.stack = stack
+
+    def displayWindow(self):
+        self.stack.show()
+
+    #Not Done
+    def receive_question(self, question):
+        question = matchQuestionToWindow(question)
+        print(type(question))
+        print("question is", question)
+        self.changeWindow(question)
         self.window.show()
 
-    def test(self):
-        print('test')
+    #I dont know either
+    def receiveAnswer(self, Answer):
+        print( Answer )
 
-#Different Windows, Might be good to have them as individual classes but that depends on overall implement
-#Implementation
+    #This function is called from the specific windows. Because it only increases the index, we get 
+    #the pages iteratively (self.stack.currentIndex() + 1) We still need to do something where we have some question:index data
+    #structure and we get the index and then the question that the backend wants us to show, then we just use the index
+    #as an argument and then we can display any question window
+    def showNextScreen(self):
+        print(self.stack.currentIndex())
+        self.stack.setCurrentIndex(self.stack.currentIndex() + 1)
+        self.displayWindow()
 
-class IntroductionWindow(QMainWindow):
-        def __init__(self):
+
+class IntroductionWindow(QMainWindow,):
+        def __init__(self, Main):
             super().__init__()
             self.IDx = 'introduction_question'
             self.start = False
             self.answers = 'intro'
             self.setMinimumSize(QSize(400, 300))
+            self.receiver = Main
 
             self.layout = QVBoxLayout()
 
@@ -80,25 +98,36 @@ class IntroductionWindow(QMainWindow):
             button = QPushButton('Yes please help')
             button.setCheckable(True)
             button.clicked.connect(self.the_button_was_clicked)
+            #button.clicked.connect(WindowHandler.showNextScreen)
             button = self.layout.addWidget(button)
 
             container = QWidget()
             container.setLayout(self.layout)
             self.setCentralWidget(container)
 
+
+        #This function is the same in all other windows, because i just wanted to go through them iteratrively,
+        #But here we have the answer which needs to go to the backend, and preferably return a question
+        #back to here so we can send it back up to the Window Handler, which finds the corresponding index and
+        #displays the question
+
         def the_button_was_clicked(self):
-            #send the answer to FC
-            pass
+            print(self.sender().text())
+            #self.receiver.recieveAnswer(self.sender().text())
+            self.receiver.showNextScreen()
+            #send answer to backend#
             #receive new question#
 
-# Subclass QMainWindow to customize your application's main window
+            #send this to the handler with something like self.receiver.showNextScreen(thisquestion)
+
+#All other Windows, essentially the same
 class AgeWindow(QMainWindow):
-    def __init__(self):
+    def __init__(self, Main):
         super().__init__()
         self.IDx = 'age_question'
-        self.setStyleSheet("background-color: #5B5A5A")
         self.answers = questions[self.IDx]
         self.setMinimumSize(QSize(400, 300))
+        self.receiver = Main
 
         self.layout = QVBoxLayout()
 
@@ -120,152 +149,224 @@ class AgeWindow(QMainWindow):
         #self.setCentralWidget(button)
 
     def the_button_was_clicked(self):
-        print (self.IDx, self.sender().text())
+        print(self.sender().text())
+        #WindowHandler.recieveAnswer(self.sender().text())
+        self.receiver.showNextScreen()
 
 class GenderWindow(QMainWindow):
-    def __init__(self):
+    def __init__(self, Main):
         super().__init__()
 
         self.IDx = 'gender_question'
         self.answers = questions[self.IDx]
         self.setMinimumSize(QSize(400, 300))
         self.layout = QVBoxLayout()
+        self.receiver = Main
 
         self.layout.addWidget(QLabel('What is your Gender?'))
 
         for answer in range(len(self.answers)):
-            self.layout.addWidget(QPushButton(questions[self.IDx][answer]))
+            button = QPushButton(questions[self.IDx][answer])
+            button.setCheckable(True)
+            button.clicked.connect(self.the_button_was_clicked)
+            button = self.layout.addWidget(button)
 
         container = QWidget()
         container.setLayout(self.layout)
         self.setCentralWidget(container)
 
+    def the_button_was_clicked(self):
+        print(self.sender().text())
+        #WindowHandler.recieveAnswer(self.sender().text())
+        self.receiver.showNextScreen()
+
 class PainStartWindow(QMainWindow):
-    def __init__(self):
+    def __init__(self, Main):
         super().__init__()
 
         self.IDx = 'pain_start_question'
         self.answers = questions[self.IDx]
         self.setMinimumSize(QSize(400, 300))
         self.layout = QVBoxLayout()
+        self.receiver = Main
 
         self.layout.addWidget(QLabel('When did the pain start?'))
 
         for answer in range(len(self.answers)):
-            self.layout.addWidget(QPushButton(questions[self.IDx][answer]))
+            button = QPushButton(questions[self.IDx][answer])
+            button.setCheckable(True)
+            button.clicked.connect(self.the_button_was_clicked)
+            button = self.layout.addWidget(button)
 
         container = QWidget()
         container.setLayout(self.layout)
         self.setCentralWidget(container)
 
+    def the_button_was_clicked(self):
+        print(self.sender().text())
+        #WindowHandler.recieveAnswer(self.sender().text())
+        self.receiver.showNextScreen()
+
 class PainLocationWindow(QMainWindow):
-    def __init__(self):
+    def __init__(self, Main):
         super().__init__()
 
         self.IDx = 'pain_location_question'
         self.setMinimumSize(QSize(400, 300))
         self.answers = questions[self.IDx]
         self.layout = QVBoxLayout()
+        self.receiver = Main
 
         self.layout.addWidget(QLabel('Where is the pain located?'))
 
         for answer in range(len(self.answers)):
-            self.layout.addWidget(QPushButton(questions[self.IDx][answer]))
+            button = QPushButton(questions[self.IDx][answer])
+            button.setCheckable(True)
+            button.clicked.connect(self.the_button_was_clicked)
+            button = self.layout.addWidget(button)
 
         container = QWidget()
         container.setLayout(self.layout)
         self.setCentralWidget(container)
+    
+    def the_button_was_clicked(self):
+        print(self.sender().text())
+        #WindowHandler.recieveAnswer(self.sender().text())
+        self.receiver.showNextScreen()
 
 class SwellingLocationWindow(QMainWindow):
     
-    def __init__(self):
+    def __init__(self, Main):
         super().__init__()
 
         self.IDx = 'swelling_location_question'
         self.answers = questions[self.IDx]
         self.setMinimumSize(QSize(400, 300))
         self.layout = QVBoxLayout()
+        self.receiver = Main
 
         self.layout.addWidget(QLabel('Is there swelling of the Knee?'))
 
         for answer in range(len(self.answers)):
-            self.layout.addWidget(QPushButton(questions[self.IDx][answer]))
+            button = QPushButton(questions[self.IDx][answer])
+            button.setCheckable(True)
+            button.clicked.connect(self.the_button_was_clicked)
+            button = self.layout.addWidget(button)
 
         container = QWidget()
         container.setLayout(self.layout)
         self.setCentralWidget(container)
+        
+    def the_button_was_clicked(self):
+        print(self.sender().text())
+        #WindowHandler.recieveAnswer(self.sender().text())
+        self.receiver.showNextScreen()
 
 class SwellingWindow(QMainWindow):
     
-    def __init__(self):
+    def __init__(self, Main):
         super().__init__()
 
         self.IDx = 'swelling_question'
         self.answers = questions[self.IDx]
         self.setMinimumSize(QSize(400, 300))
         self.layout = QVBoxLayout()
+        self.receiver = Main
 
         self.layout.addWidget(QLabel('Where is the swelling located?'))
 
         for answer in range(len(self.answers)):
-            self.layout.addWidget(QPushButton(questions[self.IDx][answer]))
+            button = QPushButton(questions[self.IDx][answer])
+            button.setCheckable(True)
+            button.clicked.connect(self.the_button_was_clicked)
+            button = self.layout.addWidget(button)
 
         container = QWidget()
         container.setLayout(self.layout)
         self.setCentralWidget(container)
 
+    def the_button_was_clicked(self):
+        print(self.sender().text())
+        #WindowHandler.recieveAnswer(self.sender().text())
+        self.receiver.showNextScreen()
+
 class BendingWindow(QMainWindow):
-    def __init__(self):
+    def __init__(self, Main):
         super().__init__()
 
         self.IDx = 'bending_question'
         self.answers = questions[self.IDx]
         self.setMinimumSize(QSize(400, 300))
         self.layout = QVBoxLayout()
+        self.receiver = Main
 
         self.layout.addWidget(QLabel('Is it painful to bend or extend the knee completely?'))
 
         for answer in range(len(self.answers)):
-            self.layout.addWidget(QPushButton(questions[self.IDx][answer]))
+            button = QPushButton(questions[self.IDx][answer])
+            button.setCheckable(True)
+            button.clicked.connect(self.the_button_was_clicked)
+            button = self.layout.addWidget(button)
 
         container = QWidget()
         container.setLayout(self.layout)
         self.setCentralWidget(container)
+        
+    def the_button_was_clicked(self):
+        print(self.sender().text())
+        #WindowHandler.recieveAnswer(self.sender().text())
+        self.receiver.showNextScreen()
 
 class ActivitiesWindow(QMainWindow):
-    def __init__(self):
+    def __init__(self, Main):
         super().__init__()
 
         self.IDx = 'activities_question'
         self.answers = questions[self.IDx]
         self.setMinimumSize(QSize(400, 300))
         self.layout = QVBoxLayout()
+        self.receiver = Main
 
         self.layout.addWidget(QLabel('Where is the swelling located?'))
 
         for answer in range(len(self.answers)):
-            self.layout.addWidget(QPushButton(questions[self.IDx][answer]))
+            button = QPushButton(questions[self.IDx][answer])
+            button.setCheckable(True)
+            button.clicked.connect(self.the_button_was_clicked)
+            button = self.layout.addWidget(button)
 
         container = QWidget()
         container.setLayout(self.layout)
         self.setCentralWidget(container)
 
+    def the_button_was_clicked(self):
+        print(self.sender().text())
+        #WindowHandler.recieveAnswer(self.sender().text())
+        self.receiver.showNextScreen()
+
 class ExtensionWindow(QMainWindow):
-    def __init__(self):
+    def __init__(self, Main):
         super().__init__()
 
         self.IDx = 'extension_question'
         self.answers = questions[self.IDx]
         self.setMinimumSize(QSize(400, 300))
         self.layout = QVBoxLayout()
+        self.receiver = Main
 
         self.layout.addWidget(QLabel('Where is the swelling located?'))
 
         for answer in range(len(self.answers)):
-            self.layout.addWidget(QPushButton(questions[self.IDx][answer]))
+            button = QPushButton(questions[self.IDx][answer])
+            button.setCheckable(True)
+            button.clicked.connect(self.the_button_was_clicked)
+            button = self.layout.addWidget(button)
 
         container = QWidget()
         container.setLayout(self.layout)
         self.setCentralWidget(container)
 
-
+    def the_button_was_clicked(self):
+        print(self.sender().text())
+        #WindowHandler.recieveAnswer(self.sender().text())
+        self.receiver.showNextScreen()
