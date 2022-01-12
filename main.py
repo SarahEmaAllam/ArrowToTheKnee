@@ -16,7 +16,7 @@ if __name__ == "__main__":
     #dict = [(var, 1)]
     #print(dict)
 
-    #pip install qdarkstyle, just trying out templates
+    #pip install qdarkstyle
     dark_stylesheet = qdarkstyle.load_stylesheet_pyside2()
 
     app = QApplication(sys.argv)
