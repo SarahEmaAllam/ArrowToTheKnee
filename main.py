@@ -5,6 +5,8 @@ from Model.ForwardChaining import *
 from Model.Patient import Patient
 from Question_Windows import *
 import qdarkstyle
+import random
+import time
 
 
 
@@ -24,21 +26,36 @@ if __name__ == "__main__":
     #Stylesheets will give a template for different widgets
     app.setStyleSheet(qdarkstyle.load_stylesheet())
 
+    Main = WindowHandler()
+
     #Styling placeholder class
-    intro_Window = IntroductionWindow()
+    intro_Window = IntroductionWindow(Main)
+    age_Window = AgeWindow(Main)
+    gender_Window = GenderWindow(Main)
+    pain_start_Window = PainStartWindow(Main)
+    pain_location_Window = PainLocationWindow(Main)
+    swelling_location_Winow = SwellingLocationWindow(Main)
+    swelling_Window = SwellingWindow(Main)
+    bending_Window = BendingWindow(Main)
+    activity_Window = ActivitiesWindow(Main)
+    extension_Window = ExtensionWindow(Main)
 
-    #Trying some stuff here
-    intro_Window = IntroductionWindow()
-    main_Window = WindowHandler(intro_Window)
-    main_Window.makeWindow()
-    activity_window = ActivitiesWindow()
-    main_Window.changeWindow(activity_window)
-    main_Window.makeWindow()
+    stack = QStackedWidget()
+    stack.addWidget(intro_Window)
+    stack.addWidget(age_Window)
+    stack.addWidget(gender_Window)
+    stack.addWidget(pain_start_Window)
+    stack.addWidget(pain_location_Window)
+    stack.addWidget(swelling_location_Winow)
+    stack.addWidget(swelling_Window)
+    stack.addWidget(bending_Window)
+    stack.addWidget(activity_Window)
+    stack.addWidget(extension_Window)
 
-    #Stack to store Questions
+    Main.addStack(stack)
 
-    #stack = QStackedWidget()
-    #stack.addWidget(intro_window)
+    Main.displayWindow()
+
 
     #var = True
     #print(dict)
