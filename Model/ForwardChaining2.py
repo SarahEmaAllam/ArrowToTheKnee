@@ -19,7 +19,7 @@ def forward_chaining(window, knowledge_base):
 
         fact = heapq.heappop(facts)  # pop by weight priority
         print("fact popped is ", fact)
-        scores = []
+        scores = {}
 
         if fact not in explored:
             explored.append(fact)
@@ -34,8 +34,9 @@ def forward_chaining(window, knowledge_base):
                         print('before actibvation sum', knowledge_base.diagnoses[diagnosis]['activation'])
                         knowledge_base.diagnoses[diagnosis]['activation'] += weight
                         print(' now activation is ', knowledge_base.diagnoses[diagnosis]['activation'])
-                        scores.append(knowledge_base.diagnoses[diagnosis]['activation'])
+                        scores[diagnosis] = knowledge_base.diagnoses[diagnosis]['activation']
+                        # scores.append(knowledge_base.diagnoses[diagnosis]['activation'])
 
             print('scores', scores)
-            print("=======score======", max(scores))
-            return max(scores)
+            print("=======score======", max(scores, key=scores.get))
+            return max(scores, key=scores.get)
