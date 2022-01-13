@@ -39,7 +39,7 @@ class MainWindow(QMainWindow):
         # self.current_question.variable = kb.symptoms[variable]
         print("current ques", self.current_question.question)
         print("HEYEYEYEYEY ", self.current_question.variable, self.sender().symptom)
-        forward_chaining(self, self.patient)
+        # forward_chaining(self, self.patient)
 
     # Method to update the window with the next question retrieved from the priority queue
     def update_window(self, question, patient):

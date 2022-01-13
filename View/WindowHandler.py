@@ -53,10 +53,12 @@ class WindowHandler:
         self.set_windows()
         self.stack.show()
 
+
     def set_windows(self):
         self.stack.addWidget(IntroductionWindow(self))
         for key, question in questions.items():
             # print(question[1], question[2], question[3])
+            print("question[0] should be the key variable", question[0])
             new_window = Window(self, question[0], question[1], question[2])
             self.stack.addWidget(new_window)
         self.stack.addWidget(FinalWindow(self))
