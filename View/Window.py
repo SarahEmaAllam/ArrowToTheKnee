@@ -18,6 +18,7 @@ class Window(QMainWindow):
         self.construct_window()
 
     def set_widgets(self, widgets):
+        # Standard window buttons
         if self.qtype == "normal":
             for button in widgets:
                 new_button = Button(button[0], button[1])
@@ -25,19 +26,25 @@ class Window(QMainWindow):
                 new_button.clicked.connect(self.was_clicked)
                 self.widgets.append(new_button)
 
+        # Multi choice: text labels with sliders
         elif self.qtype == "multi":
-            for button in widgets:
-                new_slider = Slider()
-                new_button = Button(button[0], button[1])
-                new_slider.valueChanged.connect(new_button.change_value)
-                new_button.setCheckable(True)
-                new_button.clicked.connect(self.was_clicked_checkable)
-                self.widgets.append(new_button)
+            for slider in widgets:
+                # Create text label for movement type
+                new_label = QLabel(slider[0])
+                new_label.setAlignment(Qt.AlignHCenter)
+                self.widgets.append(new_label)
+
+                # Create slider with symptom key
+                new_slider = Slider(slider[1])
+                new_slider.valueChanged.connect(self.value_changed)
                 self.widgets.append(new_slider)
+
+            # Create "next" button that calls was_clicked (fc)
             new_button = Button("Next", "next")
             new_button.clicked.connect(self.was_clicked)
             self.widgets.append(new_button)
 
+        # Show temporary diagnosis if there is one
         if self.main_window.diagnosis:
             diagnosis = QLabel()
             diagnosis.setText("Temporary Diagnosis: " + self.main_window.diagnosis)
@@ -58,13 +65,19 @@ class Window(QMainWindow):
         # forward_chaining(self, self.main_window.patient)
         self.main_window.show_next_screen()
 
-    def was_clicked_checkable(self, checked):
-        if checked:
-            self.symptoms.append([self.sender().symptom, self.sender().slider_value])
-        else:
-            for symptom in self.symptoms:
-                if symptom[0] == self.sender().symptom:
+    def value_changed(self):
+        # Iterates through the already found values for sliders
+        for symptom in self.symptoms:
+            if symptom[0] == self.sender().symptom:
+                # Remove from symptom list if slider value = 0
+                if self.sender().value() == 0:
                     self.symptoms.remove(symptom)
+                # Change symptom value if slider value nonzero
+                else:
+                    symptom[1] = str(self.sender().value())
+                return
+        # Add new nonzero symptom value to list
+        self.symptoms.append([self.sender().symptom, str(self.sender().value())])
 
     def construct_window(self):
         self.layout.addWidget(QLabel(self.question))
