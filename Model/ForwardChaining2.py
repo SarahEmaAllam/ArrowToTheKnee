@@ -6,18 +6,21 @@ import heapq
 import copy
 import math
 
-def forward_chaining(window, knowledge_base):
+def forward_chaining(window, knowledge_base, symptoms):
 
     facts = []
     explored = []
-    heapq.heappush(facts, window.sender().symptom)
+    heapq.heappush(facts, symptoms)
     # heapq.heappush(facts, symptom)
 
     print("current fact is now in FC:", facts)
 
     while len(facts) > 0:
 
-        fact = heapq.heappop(facts)  # pop by weight priority
+        fact = heapq.heappop(facts[0])  # pop by weight priority
+        print(type(fact))
+        if type(fact) == list and len(fact) >0:
+            fact = fact[0]
         print("fact popped is ", fact)
         scores = {}
 
