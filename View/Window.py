@@ -69,7 +69,7 @@ class Window(QMainWindow):
         print("current ques", self.question)
         print("HEYEYEYEYEY ", self.symptoms)
         # forward_chaining(self, self.main_window.patient)
-        result = forward_chaining(self, self.main_window.kb)
+        result = forward_chaining(self, self.main_window.kb, self.symptoms)
         print('current diaf', result)
         self.main_window.diagnosis = result
         self.main_window.show_next_screen()

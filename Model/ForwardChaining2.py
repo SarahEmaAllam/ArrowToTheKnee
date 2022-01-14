@@ -18,9 +18,15 @@ def forward_chaining(window, knowledge_base, symptoms):
     while len(facts) > 0:
 
         fact = heapq.heappop(facts[0])  # pop by weight priority
+        scale = 0
         print(type(fact))
         if type(fact) == list and len(fact) >0:
+            print("fact preprocessed", fact)
+            scale = fact[1]
+            print('multichoiceweight', scale)
             fact = fact[0]
+            print("multichoice fact[0", fact)
+
         print("fact popped is ", fact)
         scores = {}
 
@@ -35,6 +41,10 @@ def forward_chaining(window, knowledge_base, symptoms):
                     if fact == premise:
                         print(fact, 'and ', premise, 'are equal')
                         print('before actibvation sum', knowledge_base.diagnoses[diagnosis]['activation'])
+                        if scale != 0:
+                            weight = (weight * float(scale))/5
+                            print("SCALE IS ", weight)
+
                         knowledge_base.diagnoses[diagnosis]['activation'] += weight
                         print(' now activation is ', knowledge_base.diagnoses[diagnosis]['activation'])
                         scores[diagnosis] = knowledge_base.diagnoses[diagnosis]['activation']

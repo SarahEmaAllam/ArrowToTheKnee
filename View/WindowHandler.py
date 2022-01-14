@@ -60,7 +60,7 @@ class WindowHandler:
         if self.start:
             self.stack.addWidget(IntroductionWindow(self))
             self.start = False
-        elif self.idx > len(questions):
+        elif self.idx >= len(questions):
             self.stack.addWidget(FinalWindow(self))
         else:
             # print(question[1], question[2], question[3])
