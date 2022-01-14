@@ -2,8 +2,8 @@ from View.Button import *
 from Model.ForwardChaining2 import *
 from View.Slider import *
 
-knowledge_base = KnowledgeBase()
 # current_diagnosis = 'None'
+
 
 class Window(QMainWindow):
     def __init__(self, main_window, question, widgets, qtype="normal"):
@@ -20,7 +20,6 @@ class Window(QMainWindow):
         self.construct_window()
 
     def set_widgets(self, widgets):
-        global current_diagnosis
         # Standard window buttons
         if self.qtype == "normal":
             for button in widgets:
@@ -58,8 +57,6 @@ class Window(QMainWindow):
             self.widgets.append(diagnosis)
 
     def was_clicked(self):
-        global knowledge_base
-
         if self.sender().text() != "Next":
             self.symptoms.append(self.sender().symptom)
 
@@ -72,7 +69,7 @@ class Window(QMainWindow):
         print("current ques", self.question)
         print("HEYEYEYEYEY ", self.symptoms)
         # forward_chaining(self, self.main_window.patient)
-        result = forward_chaining(self, knowledge_base)
+        result = forward_chaining(self, self.main_window.kb)
         print('current diaf', result)
         self.main_window.diagnosis = result
         self.main_window.show_next_screen()

@@ -57,15 +57,14 @@ if __name__ == "__main__":
     #
     # Main.displayWindow()
 
-    main_window = WindowHandler()
+    kb = KnowledgeBase()
+    main_window = WindowHandler(kb)
 
     #var = True
     #print(dict)
-
-    kb = KnowledgeBase()
     # Create QuestionHandler that reads all questions from a .txt file
-    questions = QuestionsHandler(kb)
-    question = questions.questions.pop()
+    # questions = QuestionsHandler(kb)
+    # question = questions.questions.pop()
 
     #window = MainWindow("Knee Issues", questions, question, kb)
     #window.show()
