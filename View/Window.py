@@ -1,6 +1,8 @@
 from View.Button import *
 from Model.ForwardChaining2 import *
 from View.Slider import *
+from PySide2.QtWidgets import QMainWindow, QVBoxLayout, QLabel, QWidget
+from PySide2.QtCore import QSize
 
 # current_diagnosis = 'None'
 
