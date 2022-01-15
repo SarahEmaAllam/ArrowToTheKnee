@@ -1,5 +1,3 @@
-from Model.Rule import Rule
-from Model.Premise import Premise
 
 
 class KnowledgeBase:
@@ -7,8 +5,8 @@ class KnowledgeBase:
     def __init__(self):
         self.diagnoses = {
             # diagnosis 1
-            'Enthesiopathy':
-                {   'rules': [
+            'Jumper\'s Knee':
+                {'rules': [
                     # age variable: sets (value, weight)
                     ('1', 0),
                     ('2', 0.1),
@@ -17,23 +15,23 @@ class KnowledgeBase:
                     ('5', 0.1),
 
                     # gender variable: sets (value, weight)
-                    ('male', 0.8),
-                    ('female', 0.2),
+                    ('male', 0.75),
+                    ('female', 0.25),
 
                     # symptoms start
                     ('gradual', 0.8),
                     ('sudden', 0.2),
 
                     # location pain: sets (value, weight)
-                    ('front', 0),
+                    ('front', 0.8),
                     ('inside', 0.1),
-                    ('outside', 0.8),
+                    ('outside', 0),
                     ('back', 0),
                     ('within', 0.1),
 
                     # swelling knee
-                    ('swelling', 1),
-                    ('no_swelling', 0),
+                    ('swelling', 0.1),
+                    ('no_swelling', 0.9),
                     ('some_swell', 0),
 
                     # swelling location
@@ -41,19 +39,19 @@ class KnowledgeBase:
                     ('whole_knee', 0),
 
                     # bend knee
-                    ('bend_hurt', 0.8),
-                    ('bend_ok', 0.2),
+                    ('bend_hurt', 0.3),
+                    ('bend_ok', 0),
 
                     # bend knee pain
-                    ('extend', 0.8),
-                    ('bend', 0.2),
+                    ('extend', 0),
+                    ('bend', 1),
                     ('both', 0),
 
                     # activities hurt: sets (value, weight)
-                    ('explosive', 0),
+                    ('explosive', 0.6),
                     ('repeated', 0.2),
-                    ('torsion', 0.8),
-                    ('still', 0),
+                    ('torsion', 0),
+                    ('still', 0.2),
 
                 ],
                     'activation': 0
@@ -78,7 +76,7 @@ class KnowledgeBase:
                     ('sudden', 0),
 
                     # location pain: sets (value, weight)
-                    ('front', 0.0),
+                    ('front', 1),
                     ('inside', 0.1),
                     ('outside', 0),
                     ('back', 0),
@@ -274,7 +272,7 @@ class KnowledgeBase:
                 },
 
 
-            'Knee arthritis':
+            'Knee Arthritis':
                 {'rules': [
                     # age variable: sets (value, weight)
                     ('1', 0),
@@ -328,6 +326,62 @@ class KnowledgeBase:
                 }
 
         }
+
+        self.questions = [["What is your age?",
+                          [['0-12', '1'], ['12-18', '2'], ['18-30', '3'], ['30-55', '4'], ['55+', '5']],
+                          'normal'],
+                          ["What is your gender?",
+                          [['Male', 'male'], ['Female', 'female']],
+                          'normal'],
+                          ["How did the pain start?",
+                          [['Gradually', "gradual"], ['Suddenly', 'sudden']],
+                          'normal'],
+                          ["Where is the pain located?",
+                          [['Front', 'front'], ['Inner Side', 'inside'], ['Outer Side', 'outside'],
+                           ['Backside', 'back'], ['Within', 'within']],
+                          'normal'],
+                          ["Is there swelling of the knee?",
+                          [['Yes', 'swelling'], ['No', 'no_swelling'], ['Sometimes', 'some_swell']],
+                          'normal'],
+                          ["Where is the swelling located?",
+                          [['In one spot', 'local'], ['Whole Knee', 'whole_knee']], 'normal'],
+                          ["Does bending or extending the knee hurt?", [['Yes', 'bend_hurt'], ['No', 'bend_ok']],
+                          'normal'],
+                          ["Which of the following movements hurts the most?",
+                          [['Extending the knee', 'extend'], ['Bending the knee', 'bend'], ['Both', 'both']],
+                          'normal'],
+                          ["Which of the following movements hurt?\nSelect a movement and indicate the degree"
+                          " to which it hurts with the sliders.\n(Left = mild pain, Right = extreme pain)",
+                           [['Explosive Movements', 'explosive'], ['Repeated Movements', 'repeated'],
+                            ['Movement with torsions', 'torsion'], ['Sitting still', 'still']],
+                           'multi']
+                          ]
+
+        self.treatments = {
+            'Jumper\'s Knee': "Reduce the load on your knee relative to your usual strength.\nAvoid jumping and peak "
+                              "exercises until the pain subsides.\nIf the pain returns, lower your overall physical "
+                              "load.\nTrain your upper leg and hip stabilizers with alternating leg movements\n(avoid "
+                              "double leg exercises such as squats).\nEstimated time until recovery: 6-12 months.",
+
+            'Patellofemoral painsyndrome': "Train your upper leg and hip stabilizers, if needed with the help of a "
+                                           "physiotherapist.\nThe syndrome is painful, but not dangerous otherwise.\n"
+                                           "Estimated time until recovery: 3-5 months",
+
+            'Osgood-Schlatter': "Reduce the load on your knee relative to the amount of pain you are experiencing\n"
+                                "That is, if you are experiencing more pain, take it easier. It disappears on its own.",
+
+            'Juvenile Osteochondritis': "Severity is to be examined through an MRI scan. If it is not severe, "
+                                        "train the upper leg and butt muscles\nwith alternating leg movements (avoid "
+                                        "double leg exercises such as squats).\nKeep training as long as the issue "
+                                        "persists. ",
+
+            'Iliotibial Band Syndrome': "Train the leg muscles one leg at a time. Supplement with stretches to lessen "
+                                        "the pain.\nEstimated time until recovery: 3-5 months.",
+
+            'Knee Arthritis': "Knee Arthritis never goes away completely.\nIt is essential to keep exercising the "
+                              "legs. Practice walking and cycling.\nAvoid swimming, as the movement of the leg is "
+                              "harder to control."
+            }
 
 # class KnowledgeBase:
 #

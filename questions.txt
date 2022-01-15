@@ -1,2 +1,0 @@
-What is your gender?_gender_male_Male_female_Female
-What is your age?_age_5_55+_4_30-55_3_18-30_2_12-18_1_Under 12

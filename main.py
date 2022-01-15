@@ -1,6 +1,5 @@
 import sys
 from PySide2.QtWidgets import QApplication, QStackedWidget
-from View.MainWindow import MainWindow
 from Model.ForwardChaining import *
 from Model.Patient import Patient
 # from Question_Windows import *

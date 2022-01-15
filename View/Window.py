@@ -9,7 +9,7 @@ class Window(QMainWindow):
     def __init__(self, main_window, question, widgets, qtype="normal"):
         super().__init__()
         self.main_window = main_window
-        self.setMinimumSize(QSize(600, 400))
+        self.setMinimumSize(QSize(800, 600))
         self.layout = QVBoxLayout()
         self.question = question
         self.qtype = qtype
@@ -64,7 +64,7 @@ class Window(QMainWindow):
         if self.sender().text() == "No":
             if self.question == "Does bending or extending the knee hurt?" or self.question == "Is there swelling of " \
                                                                                                "the knee?":
-                stack.removeWidget(stack.widget(stack.currentIndex() + 1))
+                self.main_window.idx += 1
 
         print("current ques", self.question)
         print("HEYEYEYEYEY ", self.symptoms)

@@ -10,7 +10,7 @@ class IntroductionWindow(QMainWindow):
         self.IDx = 'introduction_question'
         self.start = False
         self.answers = 'intro'
-        self.setMinimumSize(QSize(400, 400))
+        self.setMinimumSize(QSize(800, 600))
         self.receiver = main_window
 
         self.layout = QVBoxLayout()

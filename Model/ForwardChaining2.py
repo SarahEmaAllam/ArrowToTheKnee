@@ -1,10 +1,5 @@
-from KnowledgeBase import KnowledgeBase
-from Rule import Rule
-from View.QuestionsHandler import QuestionsHandler
-from View.MainWindow import *
 import heapq
-import copy
-import math
+
 
 def forward_chaining(window, knowledge_base, symptoms):
 
@@ -20,7 +15,7 @@ def forward_chaining(window, knowledge_base, symptoms):
         fact = heapq.heappop(facts[0])  # pop by weight priority
         scale = 0
         print(type(fact))
-        if type(fact) == list and len(fact) >0:
+        if type(fact) == list and len(fact) > 0:
             print("fact preprocessed", fact)
             scale = fact[1]
             print('multichoiceweight', scale)
