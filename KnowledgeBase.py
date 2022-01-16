@@ -9,49 +9,49 @@ class KnowledgeBase:
                 {'rules': [
                     # age variable: sets (value, weight)
                     ('1', 0),
-                    ('2', 0.1),
-                    ('3', 0.8),
-                    ('4', 0),
-                    ('5', 0.1),
+                    ('2', 0.4),
+                    ('3', 0.4),
+                    ('4', 0.2),
+                    ('5', 0),
 
                     # gender variable: sets (value, weight)
-                    ('male', 0.75),
-                    ('female', 0.25),
+                    ('male', 0.6),
+                    ('female', 0.4),
 
                     # symptoms start
-                    ('gradual', 0.8),
-                    ('sudden', 0.2),
+                    ('gradual', 1),
+                    ('sudden', 0),
 
                     # location pain: sets (value, weight)
-                    ('front', 0.8),
-                    ('inside', 0.1),
+                    ('front', 1),
+                    ('inside', 0),
                     ('outside', 0),
                     ('back', 0),
-                    ('within', 0.1),
+                    ('within', 0),
 
                     # swelling knee
-                    ('swelling', 0.1),
-                    ('no_swelling', 0.9),
-                    ('some_swell', 0),
+                    ('swelling', 0),
+                    ('no_swelling', 0.85),
+                    ('some_swell', 0.15),
 
                     # swelling location
                     ('local', 1),
                     ('whole_knee', 0),
 
                     # bend knee
-                    ('bend_hurt', 0.3),
+                    ('bend_hurt', 1),
                     ('bend_ok', 0),
 
                     # bend knee pain
-                    ('extend', 0),
-                    ('bend', 1),
+                    ('extend', 1),
+                    ('bend', 0),
                     ('both', 0),
 
                     # activities hurt: sets (value, weight)
-                    ('explosive', 0.6),
+                    ('explosive', 0.8),
                     ('repeated', 0.2),
                     ('torsion', 0),
-                    ('still', 0.2),
+                    ('still', 0.5),
 
                 ],
                     'activation': 0
@@ -114,8 +114,8 @@ class KnowledgeBase:
             'Osgood-Schlatter':
                 {'rules': [
                     # age variable: sets (value, weight)
-                    ('1', 0),
-                    ('2', 1),
+                    ('1', 0.15),
+                    ('2', 0.85),
                     ('3', 0),
                     ('4', 0),
                     ('5', 0),
