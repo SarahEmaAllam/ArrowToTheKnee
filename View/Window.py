@@ -1,8 +1,9 @@
 from View.Button import *
 from Model.ForwardChaining2 import *
 from View.Slider import *
-from PySide2.QtWidgets import QMainWindow, QVBoxLayout, QLabel, QWidget
+from PySide2.QtWidgets import QMainWindow, QVBoxLayout, QLabel, QWidget, QSizePolicy
 from PySide2.QtCore import QSize
+from PySide2.QtGui import QFont
 
 # current_diagnosis = 'None'
 
@@ -26,6 +27,7 @@ class Window(QMainWindow):
         if self.qtype == "normal":
             for button in widgets:
                 new_button = Button(button[0], button[1])
+                new_button.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
                 # Connect every added button to method was_clicked so that fc is called for each of them
                 new_button.clicked.connect(self.was_clicked)
                 self.widgets.append(new_button)
@@ -91,7 +93,12 @@ class Window(QMainWindow):
         self.symptoms.append([self.sender().symptom, str(self.sender().value())])
 
     def construct_window(self):
-        self.layout.addWidget(QLabel(self.question))
+        text_label = QLabel(self.question)
+        text_label.setAlignment(Qt.AlignCenter)
+        text_label.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
+        font = QFont("Cambria", 25, QFont.Bold)
+        text_label.setFont(font)
+        self.layout.addWidget(text_label)
         for widget in self.widgets:
             self.layout.addWidget(widget)
 

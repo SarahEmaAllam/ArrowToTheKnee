@@ -1,7 +1,7 @@
 from PySide2.QtCore import QSize, Qt
 from PySide2.QtWidgets import QMainWindow, QLabel, QVBoxLayout, QWidget, QStackedWidget
-from PySide2.QtWidgets import QApplication, QMainWindow, QPushButton
-from PySide2.QtGui import QFont
+from PySide2.QtWidgets import QApplication, QMainWindow, QPushButton, QSizePolicy
+from PySide2.QtGui import QFont, QPixmap
 
 
 class IntroductionWindow(QMainWindow):
@@ -21,7 +21,17 @@ class IntroductionWindow(QMainWindow):
         title.setAlignment(Qt.AlignHCenter)
         self.layout.addWidget(title)
 
-        intro = QLabel('An expert knowledge system by team ArrowToTheKnee:\nSarah Allam\nPhil Bischoff\nMikko Brandon')
+        #Adding picture
+        label = QLabel(self)
+        pixmap = QPixmap('View/logo.png')
+        label.setScaledContents(True)
+        label.setPixmap(pixmap)
+        label.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
+        label.setFixedWidth(500)
+        label.setFixedHeight(500)
+        self.layout.addWidget(label, alignment=Qt.AlignCenter)
+
+        intro = QLabel('An expert knowledge system by:\nSarah Allam\nPhil Bischoff\nMikko Brandon')
         font = QFont("Arial", 15, QFont.DemiBold)
         intro.setFont(font)
         intro.setAlignment(Qt.AlignCenter)
