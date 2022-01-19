@@ -1,50 +1,39 @@
 import heapq
-
+'''
+This function is the inference model. This is the main loop that applies the rules from the KB
+to the new answer given by the user and retrieves the maximum diagnosis score back to the UI
+'''
 
 def forward_chaining(window, knowledge_base, symptoms):
 
     facts = []
     explored = []
     heapq.heappush(facts, symptoms)
-    # heapq.heappush(facts, symptom)
-
-    print("current fact is now in FC:", facts)
 
     while len(facts) > 0:
 
         fact = heapq.heappop(facts[0])  # pop by weight priority
         scale = 0
-        print(type(fact))
-        if type(fact) == list and len(fact) > 0:
-            print("fact preprocessed", fact)
-            scale = fact[1]
-            print('multichoiceweight', scale)
-            fact = fact[0]
-            print("multichoice fact[0", fact)
 
-        print("fact popped is ", fact)
+        if type(fact) == list and len(fact) > 0:
+
+            scale = fact[1]
+            fact = fact[0]
+
         scores = {}
 
         if fact not in explored:
             explored.append(fact)
 
             for diagnosis in knowledge_base.diagnoses:
-                print('diagnosis ', diagnosis)
                 for rule in knowledge_base.diagnoses[diagnosis]['rules']:
                     premise = rule[0]
                     weight = rule[1]
                     if fact == premise:
-                        print(fact, 'and ', premise, 'are equal')
-                        print('before actibvation sum', knowledge_base.diagnoses[diagnosis]['activation'])
                         if scale != 0:
                             weight = (weight * float(scale))/5
-                            print("SCALE IS ", weight)
 
                         knowledge_base.diagnoses[diagnosis]['activation'] += weight
-                        print(' now activation is ', knowledge_base.diagnoses[diagnosis]['activation'])
                         scores[diagnosis] = knowledge_base.diagnoses[diagnosis]['activation']
-                        # scores.append(knowledge_base.diagnoses[diagnosis]['activation'])
 
-            print('scores', scores)
-            print("=======score======", max(scores, key=scores.get))
             return max(scores, key=scores.get)
