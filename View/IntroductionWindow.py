@@ -1,19 +1,21 @@
 from PySide2.QtCore import QSize, Qt
-from PySide2.QtWidgets import QMainWindow, QLabel, QVBoxLayout, QWidget, QStackedWidget
-from PySide2.QtWidgets import QApplication, QMainWindow, QPushButton, QSizePolicy
+from PySide2.QtWidgets import QLabel, QVBoxLayout, QWidget
+from PySide2.QtWidgets import QMainWindow, QPushButton, QSizePolicy
 from PySide2.QtGui import QFont, QPixmap
 
 
+# Subclass of QMainWindow to customize the application's introduction window
 class IntroductionWindow(QMainWindow):
     def __init__(self, main_window):
         super().__init__()
+        # Standard window settings
+        self.setMinimumSize(QSize(1000, 600))
+        self.layout = QVBoxLayout()
+
         self.IDx = 'introduction_question'
         self.start = False
         self.answers = 'intro'
-        self.setMinimumSize(QSize(1000, 600))
         self.receiver = main_window
-
-        self.layout = QVBoxLayout()
 
         title = QLabel('Knee Issue Diagnosis')
         font = QFont("Cambria", 30, QFont.Bold)
@@ -45,16 +47,6 @@ class IntroductionWindow(QMainWindow):
         container.setLayout(self.layout)
         self.setCentralWidget(container)
 
-    # This function is the same in all other windows, because i just wanted to go through them iteratrively,
-    # But here we have the answer which needs to go to the backend, and preferably return a question
-    # back to here so we can send it back up to the Window Handler, which finds the corresponding index and
-    # displays the question
-
+    # Function defining button behavior when clicked
     def the_button_was_clicked(self):
-        print(self.sender().text())
-        # self.receiver.recieveAnswer(self.sender().text())
         self.receiver.show_next_screen()
-        # send answer to backend#
-        # receive new question#
-
-        # send this to the handler with something like self.receiver.showNextScreen(thisquestion)

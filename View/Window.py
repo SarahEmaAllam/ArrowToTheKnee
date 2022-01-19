@@ -6,6 +6,7 @@ from PySide2.QtCore import QSize
 from PySide2.QtGui import QFont
 
 
+# Subclass of QMainWindow to customize the application's question windows
 class Window(QMainWindow):
     def __init__(self, main_window, question, widgets, qtype):
         super().__init__()
