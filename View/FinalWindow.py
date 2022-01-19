@@ -7,18 +7,18 @@ from PySide2.QtGui import QFont
 class FinalWindow(QMainWindow):
     def __init__(self, main_window):
         super().__init__()
-        self.setMinimumSize(QSize(800, 600))
+        self.setMinimumSize(QSize(1000, 600))
         self.receiver = main_window
 
         self.layout = QVBoxLayout()
 
-        font = QFont("Arial", 40, QFont.Bold)
+        font = QFont("Arial", 30, QFont.Bold)
         diagnosis = QLabel('Diagnosis:\n' + self.receiver.diagnosis)
         diagnosis.setFont(font)
         diagnosis.setAlignment(Qt.AlignHCenter)
         self.layout.addWidget(diagnosis)
 
-        font = QFont("Arial", 20)
+        font = QFont("Arial", 15)
         treatment = QLabel(self.receiver.kb.treatments[self.receiver.diagnosis])
         treatment.setFont(font)
         treatment.setAlignment(Qt.AlignHCenter)

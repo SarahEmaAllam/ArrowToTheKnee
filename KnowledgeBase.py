@@ -176,7 +176,7 @@ class KnowledgeBase:
                     # gender variable: sets (value, weight)
 
                     ('female', 0.45),
-                    ('male', 0.45),
+                    ('male', 0.55),
 
                     # symptoms start
                     ('gradual', 0.7),
@@ -369,12 +369,12 @@ class KnowledgeBase:
             'Osgood-Schlatter': "Reduce the load on your knee relative to the amount of pain you are experiencing\n"
                                 "That is, if you are experiencing more pain, take it easier. It disappears on its own.",
 
-            'Juvenile Osteochondritis': "Severity is to be examined through an MRI scan. If it is not severe, "
+            'Juvenile Osteochondritis': "Severity is to be examined through an MRI scan.\nIf it is not severe, "
                                         "train the upper leg and butt muscles\nwith alternating leg movements (avoid "
                                         "double leg exercises such as squats).\nKeep training as long as the issue "
                                         "persists. ",
 
-            'Iliotibial Band Syndrome': "Train the leg muscles one leg at a time. Supplement with stretches to lessen "
+            'Iliotibial Band Syndrome': "Train the leg muscles one leg at a time.\nSupplement with stretches to lessen "
                                         "the pain.\nEstimated time until recovery: 3-5 months.",
 
             'Knee Arthritis': "Knee Arthritis never goes away completely.\nIt is essential to keep exercising the "
