@@ -10,7 +10,7 @@ class IntroductionWindow(QMainWindow):
         self.IDx = 'introduction_question'
         self.start = False
         self.answers = 'intro'
-        self.setMinimumSize(QSize(1200, 900))
+        self.setMinimumSize(QSize(800, 600))
         self.receiver = main_window
 
         self.layout = QVBoxLayout()
@@ -39,7 +39,6 @@ class IntroductionWindow(QMainWindow):
 
         button = QPushButton('Start')
         button.clicked.connect(self.the_button_was_clicked)
-        # button.clicked.connect(WindowHandler.showNextScreen)
         self.layout.addWidget(button)
 
         container = QWidget()

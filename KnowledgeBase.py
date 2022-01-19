@@ -350,8 +350,7 @@ class KnowledgeBase:
                           ["Which of the following movements hurts the most?",
                           [['Extending the knee', 'extend'], ['Bending the knee', 'bend'], ['Both', 'both']],
                           'normal'],
-                          ["Which of the following movements hurt?\nSelect a movement and indicate the degree"
-                          " to which it hurts with the sliders.\n(Left = no pain, Right = extreme pain)",
+                          ["Which of the following movements hurt?\n(Left = no pain, Right = extreme pain)",
                            [['Explosive Movements', 'explosive'], ['Repeated Movements', 'repeated'],
                             ['Movement with torsions', 'torsion'], ['Sitting still', 'still']],
                            'multi']
