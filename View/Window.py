@@ -12,7 +12,7 @@ class Window(QMainWindow):
     def __init__(self, main_window, question, widgets, qtype="normal"):
         super().__init__()
         self.main_window = main_window
-        self.setMinimumSize(QSize(800, 600))
+        self.setMinimumSize(QSize(1200, 900))
         self.layout = QVBoxLayout()
         self.question = question
         self.qtype = qtype

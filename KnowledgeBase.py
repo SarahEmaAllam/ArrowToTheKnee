@@ -167,11 +167,11 @@ class KnowledgeBase:
             'Juvenile Osteochondritis':
                 {'rules': [
                     # age variable: sets (value, weight)
-                    ('1', 0),
+                    ('1', -100),
                     ('2', 1),
-                    ('3', 0),
-                    ('4', 0),
-                    ('5', 0),
+                    ('3', -100),
+                    ('4', -100),
+                    ('5', -100),
 
                     # gender variable: sets (value, weight)
 
@@ -275,10 +275,10 @@ class KnowledgeBase:
             'Knee Arthritis':
                 {'rules': [
                     # age variable: sets (value, weight)
-                    ('1', 0),
-                    ('2', 0),
-                    ('3', 0),
-                    ('4', 0),
+                    ('1', -100),
+                    ('2', -100),
+                    ('3', -100),
+                    ('4', -100),
                     ('5', 1),
 
                     # gender variable: sets (value, weight)
@@ -351,7 +351,7 @@ class KnowledgeBase:
                           [['Extending the knee', 'extend'], ['Bending the knee', 'bend'], ['Both', 'both']],
                           'normal'],
                           ["Which of the following movements hurt?\nSelect a movement and indicate the degree"
-                          " to which it hurts with the sliders.\n(Left = mild pain, Right = extreme pain)",
+                          " to which it hurts with the sliders.\n(Left = no pain, Right = extreme pain)",
                            [['Explosive Movements', 'explosive'], ['Repeated Movements', 'repeated'],
                             ['Movement with torsions', 'torsion'], ['Sitting still', 'still']],
                            'multi']

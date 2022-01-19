@@ -7,7 +7,7 @@ from PySide2.QtGui import QFont
 class FinalWindow(QMainWindow):
     def __init__(self, main_window):
         super().__init__()
-        self.setMinimumSize(QSize(800, 600))
+        self.setMinimumSize(QSize(1200, 900))
         self.receiver = main_window
 
         self.layout = QVBoxLayout()
