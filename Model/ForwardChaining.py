@@ -4,6 +4,7 @@ This function is the inference model. This is the main loop that applies the rul
 to the new answer given by the user and retrieves the maximum diagnosis score back to the UI
 '''
 
+
 def forward_chaining(window, knowledge_base, symptoms):
 
     facts = []

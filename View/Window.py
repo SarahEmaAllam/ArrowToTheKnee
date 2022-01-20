@@ -1,5 +1,5 @@
 from View.Button import *
-from Model.ForwardChaining2 import *
+from Model.ForwardChaining import *
 from View.Slider import *
 from PySide2.QtWidgets import QMainWindow, QVBoxLayout, QLabel, QWidget, QSizePolicy
 from PySide2.QtCore import QSize
